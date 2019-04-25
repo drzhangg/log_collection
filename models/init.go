@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/garyburd/redigo/redis"
 	etcd_client "go.etcd.io/etcd/clientv3"
+	"golang.org/x/net/context"
 	"time"
 )
 
@@ -70,23 +71,46 @@ func initLogger() (err error) {
 	config["filename"] = secSkillConf.logPath
 	config["level"] = convertLogLevel(secSkillConf.logLevel)
 
-	configStr,err := json.Marshal(config)
+	configStr, err := json.Marshal(config)
 	if err != nil {
-		fmt.Println("marshal failed,err:",err)
+		fmt.Println("marshal failed,err:", err)
 		return
 	}
 
-	logs.SetLogger(logs.AdapterFile,string(configStr))
+	logs.SetLogger(logs.AdapterFile, string(configStr))
 	return
 }
 
-func InitSec() (err error) {
-	err = initLogger()
+//加载sec配置
+func loadSecConf() (err error) {
+	key := fmt.Sprintf("%s/product", secSkillConf.etcdConf.etcdSecKey)
+	resp, err := etcdClient.Get(context.Background(), key)
 	if err != nil {
-		logs.Error("init logger failed,err:%v",err)
+		logs.Error("get [%v] from etcd failed, err:%v", key, err)
 		return
 	}
 
+	var secProductInfo []SecInfoConf
+	for k, v := range resp.Kvs {
+		logs.Error("key[%v] value[%v]", k, v)
+		err = json.Unmarshal(v.Value,&secProductInfo)
+		if err != nil {
+			logs.Error("Unmarshal sec product info failed,err :%v",err)
+			return
+		}
+		logs.Debug("sec info conf is [%v]",secProductInfo)
+	}
+
+	return
+}
+
+//初始化sec
+func InitSec() (err error) {
+	err = initLogger()
+	if err != nil {
+		logs.Error("init logger failed,err:%v", err)
+		return
+	}
 
 	/*
 	err = initRedis()
@@ -102,7 +126,11 @@ func InitSec() (err error) {
 		return
 	}
 
+	err = loadSecConf()
+	if err != nil {
+		return
+	}
+
 	logs.Info("init sec success")
 	return
 }
-

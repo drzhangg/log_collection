@@ -17,8 +17,9 @@ type RedisConf struct {
 }
 
 type EtcdConf struct {
-	etcdAddr string
-	timeout  int
+	etcdAddr   string
+	timeout    int
+	etcdSecKey string
 }
 
 type SecSkillConf struct {
@@ -26,6 +27,16 @@ type SecSkillConf struct {
 	etcdConf    EtcdConf
 	logPath     string
 	logLevel    string
+}
+
+//定义秒杀商品信息
+type SecInfoConf struct {
+	ProductId int
+	StartTime int
+	EndTime   int
+	Status    int
+	Total     int
+	Left      int
 }
 
 func InitConfig() (err error) {
@@ -48,19 +59,19 @@ func InitConfig() (err error) {
 
 	redisMaxIdle, err := beego.AppConfig.Int("redis_max_idle")
 	if err != nil {
-		err = fmt.Errorf("init config failed,read redis_max_idle error:%v", redisMaxIdle)
+		err = fmt.Errorf("init config failed,read redis_max_idle error:%v", err)
 		return
 	}
 
 	redisMaxActive, err := beego.AppConfig.Int("redis_max_idle")
 	if err != nil {
-		err = fmt.Errorf("init config failed,read redis_max_active error:%v", redisMaxActive)
+		err = fmt.Errorf("init config failed,read redis_max_active error:%v", err)
 		return
 	}
 
 	redisIdleTimeout, err := beego.AppConfig.Int("redis_max_idle")
 	if err != nil {
-		err = fmt.Errorf("init config failed,read redis_idle_timeout error:%v", redisIdleTimeout)
+		err = fmt.Errorf("init config failed,read redis_idle_timeout error:%v", err)
 		return
 	}
 
@@ -70,10 +81,16 @@ func InitConfig() (err error) {
 
 	etcdTimeout, err := beego.AppConfig.Int("etcd_timeout")
 	if err != nil {
-		err = fmt.Errorf("init config failed,read etcd_timeout error:%v", etcdTimeout)
+		err = fmt.Errorf("init config failed,read etcd_timeout error:%v", err)
+		return
 	}
 
 	secSkillConf.etcdConf.timeout = etcdTimeout
+	secSkillConf.etcdConf.etcdSecKey = beego.AppConfig.String("etcd_sec_key")
+	if len(secSkillConf.etcdConf.etcdSecKey) == 0 {
+		err = fmt.Errorf("init config failed,read etcd_sec_key error:%v", err)
+		return
+	}
 
 	secSkillConf.logPath = beego.AppConfig.String("log_path")
 	secSkillConf.logLevel = beego.AppConfig.String("log_level")
