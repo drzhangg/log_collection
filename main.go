@@ -1,10 +1,8 @@
 package main
 
 import (
-	"secKill/models"
-	_ "secKill/routers"
 	"github.com/astaxie/beego"
-
+	"github.com/drzhangg/secKill/models"
 )
 
 func main() {
@@ -21,4 +19,3 @@ func main() {
 
 	beego.Run()
 }
-
