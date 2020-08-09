@@ -20,11 +20,11 @@ type Mysql struct {
 }
 
 type Etcd struct {
-	Addr            string `yaml:"addr"`
-	ConfigKey       string `yaml:"config_key"`
-	EtcdDailTimeout string `yaml:"etcd_dail_timeout"`
-	EtcdPutTimeout  string `yaml:"etcd_put_timeout"`
-	EtcdGetTimeout  string `yaml:"etcd_get_timeout"`
+	Addr            []string `yaml:"addr"`
+	ConfigKey       string   `yaml:"config_key"`
+	EtcdDailTimeout int      `yaml:"etcd_dail_timeout"`
+	EtcdPutTimeout  int      `yaml:"etcd_put_timeout"`
+	EtcdGetTimeout  int      `yaml:"etcd_get_timeout"`
 }
 
 func InitConfig() (Yaml, error) {
