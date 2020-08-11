@@ -22,6 +22,11 @@ func init() {
 //初始化配置
 func InitConfig() (err error) {
 	//初始化配置文件
+	//conf, err = config.NewConfig("ini", "logCollection/common/conf/common.conf")
+	//if err != nil {
+	//	err = errors.New(fmt.Sprintf("new config failed, err:", err))
+	//	return
+	//}
 
 	//初始化etcd
 

@@ -1,10 +1,14 @@
 package init
 
-import "github.com/coreos/etcd/clientv3"
+import (
+	"github.com/coreos/etcd/clientv3"
+	"github.com/jinzhu/gorm"
+)
 
 var (
-	ConfigInit Yaml
-	EtcdClient *clientv3.Client
+	ConfigInit  Yaml
+	EtcdClient  *clientv3.Client
+	MysqlClient *gorm.DB
 )
 
 func InitAll() (err error) {
@@ -13,6 +17,10 @@ func InitAll() (err error) {
 	}
 
 	if EtcdClient, err = InitEtcd(); err != nil {
+		return
+	}
+
+	if MysqlClient, err = InitMysql(); err != nil {
 		return
 	}
 	return

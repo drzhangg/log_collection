@@ -20,7 +20,7 @@ func TestProducer(t *testing.T) {
 	}
 
 	q, err := ch.QueueDeclare(
-		"testqueue",
+		"testqueue1",
 		true,
 		false,
 		false,
@@ -58,7 +58,7 @@ func TestConsumer(t *testing.T) {
 			}
 			defer ch.Close()
 
-			q, err := ch.QueueDeclare("testqueue", true, false, false, false, nil)
+			q, err := ch.QueueDeclare("testqueue1", true, false, false, false, nil)
 			if err != nil {
 				log.Panic(err)
 			}

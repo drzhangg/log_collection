@@ -13,7 +13,7 @@ func InitEtcd() (etcdClient *clientv3.Client, err error) {
 		DialTimeout: time.Duration(ConfigInit.Etcd.EtcdDailTimeout) * time.Second,
 	})
 	if err != nil {
-		err = fmt.Errorf("connect etcd failed, err:", err)
+		err = fmt.Errorf("connect etcd failed, err:%v", err)
 		log.Println(err)
 		return
 	}

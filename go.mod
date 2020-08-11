@@ -10,6 +10,7 @@ require (
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/google/uuid v1.1.1 // indirect
+	github.com/jinzhu/gorm v1.9.15 // indirect
 	github.com/nsqio/go-nsq v1.0.8
 	github.com/streadway/amqp v1.0.0
 	go.uber.org/zap v1.15.0 // indirect
