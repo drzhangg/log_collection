@@ -8,7 +8,7 @@ import (
 )
 
 func TestProducer(t *testing.T) {
-	conn, err := amqp.Dial("amqp://admin:admin@47.103.9.218:5672/")
+	conn, err := amqp.Dial("amqp://admin:admin@0:5672/")
 	if err != nil {
 		log.Panic(err)
 	}

@@ -10,7 +10,7 @@ import (
 
 func TestNsqProducer(t *testing.T) {
 	config := nsq.NewConfig()
-	p, err := nsq.NewProducer("47.103.9.218:4150", config)
+	p, err := nsq.NewProducer("0:4150", config)
 	if err != nil {
 		log.Panic(err)
 	}
