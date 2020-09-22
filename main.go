@@ -2,21 +2,21 @@ package main
 
 import (
 	"fmt"
-	"github.com/hpcloud/tail"
-	"log_collection/util/cron"
+	"github.com/nxadm/tail"
 	"time"
 )
 
 func main() {
-	cron.UploadToGit()
+	//	cron.UploadToGit()
 
-	filename := "~/demo/go/my.log"
+	filename := "/Users/drzhang/demo/log/log.log"
+
 	tails, err := tail.TailFile(filename, tail.Config{
-		Location:  &tail.SeekInfo{Offset: 0, Whence: 2},
 		ReOpen:    true,
+		Follow:    true,
+		Location:  &tail.SeekInfo{Offset: 0, Whence: 2},
 		MustExist: false,
 		Poll:      true,
-		Follow:    true,
 	})
 	if err != nil {
 		fmt.Println("tail file err:", err)
@@ -28,10 +28,11 @@ func main() {
 	for true {
 		msg, ok = <-tails.Lines
 		if !ok {
-			fmt.Printf("tail file close reopen,filename:%s\n", tails, filename)
-			time.Sleep(100 * time.Second)
+			fmt.Printf("tail file close reopen,filenam:%s\n", tails, filename)
+			time.Sleep(100 * time.Millisecond)
 			continue
 		}
 		fmt.Println("msg:", msg.Text)
 	}
+
 }
