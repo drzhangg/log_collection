@@ -14,7 +14,7 @@ require (
 	github.com/nsqio/go-nsq v1.0.8
 	github.com/spf13/viper v1.7.1 // indirect
 	github.com/streadway/amqp v1.0.0
-	go.uber.org/zap v1.15.0 // indirect
+	go.uber.org/zap v1.16.0 // indirect
 	google.golang.org/genproto v0.0.0-20200731012542-8145dea6a485 // indirect
 	google.golang.org/grpc v1.31.0 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
